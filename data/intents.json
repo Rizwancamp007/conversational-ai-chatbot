@@ -1,0 +1,525 @@
+{
+  "domain": "academy_helpdesk",
+  "version": 1,
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hi",
+        "hello",
+        "hey",
+        "hey there",
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "assalam o alaikum",
+        "aoa",
+        "salam",
+        "salam sir",
+        "hello is anyone there",
+        "hi I need some help",
+        "hey, can you help me?",
+        "hello academy",
+        "hii",
+        "helo there"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Wa alaikum assalam! Ask me about admissions, courses, fees, timetable or tests.",
+        "Hi there! What would you like to know about the academy?"
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye",
+        "goodbye",
+        "see you",
+        "see you later",
+        "allah hafiz",
+        "khuda hafiz",
+        "ok bye",
+        "talk to you later",
+        "that's all, bye",
+        "I'm done",
+        "bye bye",
+        "good night",
+        "catch you later",
+        "ok allah hafiz",
+        "chalo bye",
+        "I have to go now"
+      ],
+      "responses": [
+        "Allah Hafiz! Come back any time.",
+        "Goodbye, best of luck with your studies!",
+        "Take care! I'm here whenever you need help."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "thanks",
+        "thank you",
+        "thank you so much",
+        "thanks a lot",
+        "shukriya",
+        "bohat shukriya",
+        "jazakallah",
+        "thx",
+        "thanks for the help",
+        "that was helpful",
+        "great, thanks",
+        "ok thank you",
+        "much appreciated",
+        "thanks bro",
+        "thank you sir",
+        "meherbani"
+      ],
+      "responses": [
+        "You're welcome!",
+        "Happy to help. Anything else?",
+        "No problem! Ask me anything else you need."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "about_bot",
+      "patterns": [
+        "who are you",
+        "what are you",
+        "are you a bot",
+        "are you a human",
+        "what can you do",
+        "what is your name",
+        "tum kaun ho",
+        "aap kaun ho",
+        "how can you help me",
+        "what do you know",
+        "are you real",
+        "who made you",
+        "what is this chat",
+        "can you answer my questions",
+        "what can i ask you",
+        "tum kya kar sakte ho"
+      ],
+      "responses": [
+        "I'm the academy helpdesk assistant. I can answer questions about admissions, courses, fees, timetable, tests, results and online classes.",
+        "I'm a chat assistant for the academy. Ask me about courses, fees, timings or results."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "how_are_you",
+      "patterns": [
+        "how are you",
+        "how are you doing",
+        "how is it going",
+        "kya haal hai",
+        "kaise ho",
+        "aap kaise hain",
+        "how's your day",
+        "are you fine",
+        "sab theek",
+        "what's up",
+        "how do you do",
+        "hope you are well",
+        "tum theek ho",
+        "how are things",
+        "kya chal raha hai",
+        "you good?"
+      ],
+      "responses": [
+        "I'm doing well, thanks for asking! How can I help you?",
+        "All good here! What would you like to know about the academy?"
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "admissions",
+      "patterns": [
+        "how can I get admission",
+        "admission process",
+        "I want to take admission",
+        "how to apply",
+        "is admission open",
+        "admissions open for matric?",
+        "dakhla kaise milega",
+        "admission kab start hogi",
+        "how do I enroll my son",
+        "enrollment for fsc",
+        "registration for new session",
+        "I want to join the academy",
+        "what documents are needed for admission",
+        "admission form kahan milega",
+        "last date for admission",
+        "can I join in the middle of the session",
+        "register my daughter for 9th class",
+        "addmission for entry test preparation"
+      ],
+      "responses": [
+        "Admissions are open for {course} ({class_level}). You can register at the front desk or online, and we'll guide you through the form.",
+        "For {course} in {class_level}, fill the registration form and bring a copy of your B-form or CNIC and last result card."
+      ],
+      "required_slots": [
+        "course",
+        "class_level"
+      ],
+      "slot_prompts": {
+        "course": "Which course or program are you interested in?",
+        "class_level": "Which class or level is the student in?"
+      }
+    },
+    {
+      "tag": "courses",
+      "patterns": [
+        "what courses do you offer",
+        "which subjects are available",
+        "list of courses",
+        "do you teach physics",
+        "do you have computer science classes",
+        "kaun kaun se courses hain",
+        "programs offered",
+        "is there an mdcat course",
+        "ecat preparation available?",
+        "do you offer english language course",
+        "courses for 10th class",
+        "which subjects for fsc pre medical",
+        "do you teach maths",
+        "is there any short course",
+        "what programs can I join",
+        "chemistry classes available?"
+      ],
+      "responses": [
+        "We offer Matric (9th–10th), FSc / ICS (11th–12th), MDCAT and ECAT preparation, and short courses in English and computer. Which one are you interested in?",
+        "Our main programs are Matric, Intermediate (FSc/ICS), entry test preparation and short courses. Ask me about any of them."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "fees",
+      "patterns": [
+        "what is the fee",
+        "how much is the fee",
+        "fee structure",
+        "fees kitni hai",
+        "monthly fee for fsc",
+        "how much for mdcat course",
+        "fee kya hai",
+        "what are the charges",
+        "tuition fee for matric",
+        "fess for 9th class",
+        "is there admission fee",
+        "fee kab jama karni hai",
+        "last date to pay fee",
+        "can I pay fee online",
+        "fee in installments possible?",
+        "kitne paise lagenge",
+        "how to pay the fees"
+      ],
+      "responses": [
+        "The fee for {course} is shared at admission. You can pay monthly at the front desk or by bank transfer.",
+        "Fee details for {course} depend on the class and package. Our office can share the exact amount and payment options."
+      ],
+      "required_slots": [
+        "course"
+      ],
+      "slot_prompts": {
+        "course": "Which course do you want the fee for?"
+      }
+    },
+    {
+      "tag": "fee_discount",
+      "patterns": [
+        "is there any discount",
+        "scholarship available?",
+        "concession in fee",
+        "discount for siblings",
+        "fee mein discount milega",
+        "merit scholarship",
+        "do you give scholarships to toppers",
+        "need based scholarship",
+        "fee kam ho sakti hai",
+        "any discount for orphans",
+        "sibling discount",
+        "discount if I pay full fee",
+        "is there any fee waiver",
+        "scholarship test kab hai",
+        "kya concession hai",
+        "half fee for good marks?"
+      ],
+      "responses": [
+        "Yes, we offer merit and sibling discounts. The office will confirm what you qualify for.",
+        "Scholarships are given on merit and need. Visit the office with the last result card to apply."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "timetable",
+      "patterns": [
+        "class timings",
+        "what is the timetable",
+        "when are the classes",
+        "class kab hoti hai",
+        "timetable for 10th class",
+        "what time does physics class start",
+        "schedule for fsc",
+        "timing kya hai",
+        "are there evening classes",
+        "morning batch timing",
+        "which days are classes held",
+        "is there class on sunday",
+        "timetable bhej do",
+        "when does the new batch start",
+        "class schedule please",
+        "shedule of mdcat batch"
+      ],
+      "responses": [
+        "The {course} classes run on the current timetable posted at the academy and on the portal. Morning and evening batches are available.",
+        "Here's how {course} runs: weekdays with morning and evening batches. The office can confirm the exact slot."
+      ],
+      "required_slots": [
+        "course"
+      ],
+      "slot_prompts": {
+        "course": "Which course or class do you need the timetable for?"
+      }
+    },
+    {
+      "tag": "tests",
+      "patterns": [
+        "when is the next test",
+        "test schedule",
+        "test kab hai",
+        "weekly test timing",
+        "monthly test date",
+        "is there a test tomorrow",
+        "chemistry test date",
+        "send me the test schedule",
+        "online test kaise dena hai",
+        "mock test for mdcat",
+        "when are the exams",
+        "paper kab hai",
+        "test syllabus",
+        "is the test online or on paper",
+        "how many tests in a month",
+        "send test date sheet"
+      ],
+      "responses": [
+        "Tests for {course} are held weekly, with a monthly test at month end. Check the portal for the date sheet.",
+        "The next {course} test date is on the portal under Tests. You can take online tests there too."
+      ],
+      "required_slots": [
+        "course"
+      ],
+      "slot_prompts": {
+        "course": "Which course or subject is the test for?"
+      }
+    },
+    {
+      "tag": "results",
+      "patterns": [
+        "check my result",
+        "result kab aayega",
+        "when will results come",
+        "my marks",
+        "how did I do in the test",
+        "result of last test",
+        "show my result",
+        "test result please",
+        "monthly test result",
+        "where can I see my marks",
+        "natija kab hai",
+        "result card",
+        "how many marks did I get",
+        "rezult check",
+        "my son's result",
+        "mere marks kitne aaye"
+      ],
+      "responses": [
+        "Results for {student_name} are on the student portal under Results. Log in with your student ID to see them.",
+        "Once marking is done, {student_name}'s result shows on the portal and the office can share the result card."
+      ],
+      "required_slots": [
+        "student_name"
+      ],
+      "slot_prompts": {
+        "student_name": "What is the student's name?"
+      }
+    },
+    {
+      "tag": "online_classes",
+      "patterns": [
+        "are there online classes",
+        "online class link",
+        "how to join online class",
+        "zoom link please",
+        "online classes available?",
+        "can I study online",
+        "online class kab hai",
+        "recorded lectures available?",
+        "where are the lectures uploaded",
+        "I missed the class, is there a recording",
+        "online lecture kaise dekhun",
+        "do you have an app for classes",
+        "live class link",
+        "can I attend from home",
+        "online class not working",
+        "lecture videos kahan hain"
+      ],
+      "responses": [
+        "Yes, online classes run on the portal. Log in and open Online Classes to get the live link and recorded lectures.",
+        "Live classes and recordings are on the student portal. If a link isn't working, tell the office and they'll fix it."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "contact number",
+        "phone number of academy",
+        "how can I contact you",
+        "whatsapp number",
+        "email address",
+        "rabta kaise karein",
+        "call the office",
+        "your contact details",
+        "office number",
+        "number do academy ka",
+        "I want to call",
+        "give me your email",
+        "contact info",
+        "how do I reach the office",
+        "helpline number",
+        "who do I talk to for fee issues"
+      ],
+      "responses": [
+        "You can reach the office by phone or WhatsApp during office hours. The numbers are on the Contact page.",
+        "Please use the Contact page for the office phone, WhatsApp and email."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "location",
+      "patterns": [
+        "where is the academy",
+        "address please",
+        "academy kahan hai",
+        "location of academy",
+        "how to reach the academy",
+        "send location",
+        "what is your address",
+        "pata kya hai",
+        "is there a branch near me",
+        "google maps location",
+        "which area is the academy in",
+        "directions to academy",
+        "where is your campus",
+        "branch address",
+        "academy ka address",
+        "nearest branch"
+      ],
+      "responses": [
+        "The academy address and map are on the Contact page. You can also ask the office for directions.",
+        "You'll find our address and a map pin on the Contact page."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "teacher_info",
+      "patterns": [
+        "who teaches physics",
+        "physics teacher name",
+        "who is the maths teacher",
+        "teacher kaun hai",
+        "chemistry ka teacher kaun hai",
+        "teachers qualification",
+        "are teachers experienced",
+        "who will teach biology",
+        "english teacher",
+        "can I meet the teacher",
+        "faculty details",
+        "sir ka number",
+        "teacher se baat karni hai",
+        "who teaches computer",
+        "best teacher for mdcat",
+        "ustad kaun hain"
+      ],
+      "responses": [
+        "{subject} is taught by our subject specialist. The office can arrange a meeting with the teacher.",
+        "Our {subject} teacher is listed on the Faculty page. Ask the office if you want to meet them."
+      ],
+      "required_slots": [
+        "subject"
+      ],
+      "slot_prompts": {
+        "subject": "Which subject's teacher are you asking about?"
+      }
+    },
+    {
+      "tag": "human_handoff",
+      "patterns": [
+        "talk to a human",
+        "I want to talk to someone",
+        "connect me to the office",
+        "kisi insan se baat karao",
+        "real person please",
+        "I need to speak to admin",
+        "this is not helping",
+        "you are not understanding",
+        "call me back",
+        "can someone call me",
+        "agent please",
+        "I want to complain",
+        "baat karni hai kisi se",
+        "speak to the principal",
+        "transfer me to staff",
+        "not helpful, give me a person"
+      ],
+      "responses": [
+        "Sure, I'll pass this to the office. Leave your name and number and someone will contact you.",
+        "No problem, a staff member will get back to you. Please share your name and phone number."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    },
+    {
+      "tag": "fallback",
+      "patterns": [
+        "asdfgh",
+        "qwerty",
+        "blah blah",
+        "what is the weather today",
+        "tell me a joke",
+        "who won the cricket match",
+        "play some music",
+        "order pizza",
+        "book a flight",
+        "what is bitcoin price",
+        "zzzz",
+        "lorem ipsum",
+        "random words here",
+        "kjhkjh",
+        "what's the capital of france",
+        "sing a song"
+      ],
+      "responses": [
+        "Sorry, I didn't get that. I can help with admissions, courses, fees, timetable, tests, results and online classes.",
+        "I'm not sure about that one. Try asking about courses, fees or class timings, or type 'talk to a human'."
+      ],
+      "required_slots": [],
+      "slot_prompts": {}
+    }
+  ]
+}
