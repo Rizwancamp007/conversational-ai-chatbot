@@ -12,6 +12,7 @@ Work in progress. Done so far:
 - Academy helpdesk dataset in `data/intents.json` (18 intents, English + common Roman Urdu spellings)
 - Dataset checker
 - Text preprocessing with NLTK (tokenise, lowercase, lemmatise, keep question words, fix common misspellings and Roman Urdu words)
+- Intent classifier (Keras text model, trained on the dataset, with a confidence threshold and a fallback intent for anything outside the domain)
 
 Intent model, entity extraction, multi-turn dialogue and the chat UI are next.
 
@@ -41,9 +42,22 @@ cp .env.example .env            # fill in your own values
 
 ```bash
 python scripts/validate_dataset.py
+python scripts/train.py          # trains the intent model, saves it under models/
+python scripts/evaluate.py      # accuracy and per-intent scores on held-out data
 python wsgi.py                  # http://127.0.0.1:5000/health
 pytest
 ```
+
+## Train the model
+
+`python scripts/train.py` trains the intent classifier on `data/intents.json`
+(80/20 stratified split, fixed seed so runs repeat) and saves the model,
+label list and metrics under `models/` — that folder is gitignored, so the
+trained files are never committed. `python scripts/evaluate.py` re-scores the
+saved model on the same held-out split and prints accuracy, per-intent
+precision/recall/F1 and the confusion matrix. Anything the model is unsure
+about (confidence below `CONFIDENCE_THRESHOLD`, default 0.6) falls back to
+the `fallback` intent.
 
 ## Dataset format
 
