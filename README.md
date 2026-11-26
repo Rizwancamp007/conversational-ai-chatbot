@@ -13,8 +13,9 @@ Work in progress. Done so far:
 - Dataset checker
 - Text preprocessing with NLTK (tokenise, lowercase, lemmatise, keep question words, fix common misspellings and Roman Urdu words)
 - Intent classifier (Keras text model, trained on the dataset, with a confidence threshold and a fallback intent for anything outside the domain)
+- Entity extraction (course/subject, class level, day/date/time, phone, email, student name, amount — gazetteers + regex + NLTK name chunking, with normalisation like "kal" → a date and "10 baje" → "10:00")
 
-Intent model, entity extraction, multi-turn dialogue and the chat UI are next.
+Intent model, multi-turn dialogue and the chat UI are next.
 
 ## Project layout
 
@@ -58,6 +59,28 @@ saved model on the same held-out split and prints accuracy, per-intent
 precision/recall/F1 and the confusion matrix. Anything the model is unsure
 about (confidence below `CONFIDENCE_THRESHOLD`, default 0.6) falls back to
 the `fallback` intent.
+
+## Entity extraction
+
+`chatbot/nlp/entities.py` pulls the details out of a message:
+
+```python
+from chatbot.nlp.entities import extract_entities, extract_slots
+
+extract_entities("FSc physics ki fee kal kitni hai, Rs 5000?")
+# subject: physics, course: fsc, date: <tomorrow's ISO date>, amount: 5000
+extract_slots("my name is Ahmed, 9th class, call 03001234567")
+# {"student_name": "Ahmed", "class_level": "9th", "phone": "+923001234567"}
+```
+
+Each entity carries its span in the original message and a confidence
+score. Values are normalised: "kal"/"tomorrow" become an ISO date (counted
+from today, or from the `reference_date` you pass in), "10 baje" becomes
+"10:00", phone numbers become "+92..." form, "Rs 5,000" becomes `5000`.
+Names come from "my name is ..." / "mera naam ..." cues first, with NLTK
+named-entity chunking as a fallback. The slot names match the dataset's
+`required_slots`, so Day 4's dialogue manager can fill them straight from
+these results.
 
 ## Dataset format
 

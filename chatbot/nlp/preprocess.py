@@ -17,6 +17,10 @@ NLTK_PACKAGES = {
     "wordnet": "corpora/wordnet",
     "omw-1.4": "corpora/omw-1.4",
     "stopwords": "corpora/stopwords",
+    # named-entity chunking for student names (chatbot/nlp/entities.py)
+    "maxent_ne_chunker_tab": "chunkers/maxent_ne_chunker_tab",
+    "words": "corpora/words",
+    "averaged_perceptron_tagger_eng": "taggers/averaged_perceptron_tagger_eng",
 }
 
 # Words we never drop: they decide what the user is asking.
