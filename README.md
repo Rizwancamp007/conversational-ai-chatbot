@@ -14,8 +14,9 @@ Work in progress. Done so far:
 - Text preprocessing with NLTK (tokenise, lowercase, lemmatise, keep question words, fix common misspellings and Roman Urdu words)
 - Intent classifier (Keras text model, trained on the dataset, with a confidence threshold and a fallback intent for anything outside the domain)
 - Entity extraction (course/subject, class level, day/date/time, phone, email, student name, amount — gazetteers + regex + NLTK name chunking, with normalisation like "kal" → a date and "10 baje" → "10:00")
+- Multi-turn dialogue: per-session state, slot filling with follow-up questions, context carry-over ("and for ICS?"), topic switching mid-conversation, cancel/reset, session expiry after 30 minutes, small talk that doesn't lose the current question, and human handoff
 
-Intent model, multi-turn dialogue and the chat UI are next.
+Intent model, the chat UI and the API are next.
 
 ## Project layout
 
@@ -79,8 +80,39 @@ from today, or from the `reference_date` you pass in), "10 baje" becomes
 "10:00", phone numbers become "+92..." form, "Rs 5,000" becomes `5000`.
 Names come from "my name is ..." / "mera naam ..." cues first, with NLTK
 named-entity chunking as a fallback. The slot names match the dataset's
-`required_slots`, so Day 4's dialogue manager can fill them straight from
+`required_slots`, so the dialogue manager can fill them straight from
 these results.
+
+## Multi-turn dialogue
+
+`chatbot/dialogue/manager.py` runs one conversation per session id:
+
+```python
+from chatbot.dialogue.manager import DialogueManager
+
+bot = DialogueManager()
+bot.handle("session-1", "I want admission")
+# "Which course or program are you interested in?"
+bot.handle("session-1", "FSc")
+# "Which class or level is the student in?"
+bot.handle("session-1", "9th class")
+# "Admissions are open for fsc (9th). You can register at the front desk..."
+bot.handle("session-1", "and for ICS?")
+# "Admissions are open for ics (9th). ..."
+```
+
+It asks a follow-up question for each missing slot (the questions come from
+`slot_prompts` in the dataset), keeps the topic when the user just adds a
+detail, switches topic when the user clearly asks something else, and
+answers small talk ("thanks", "hello") without losing the question it was
+waiting on. "cancel" / "start over" drops the current topic; "talk to a
+human" flags the session for handoff. Sessions live in memory and expire
+after 30 minutes of quiet.
+
+A short answer ("FSc") is read as the answer to the question just asked,
+even though the intent model on its own would guess a topic for it — the
+manager checks the words left over after the slot value is taken out, so a
+full question ("what is the timetable for ICS") still switches topic.
 
 ## Dataset format
 
