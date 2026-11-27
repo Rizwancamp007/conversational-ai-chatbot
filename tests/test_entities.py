@@ -187,6 +187,8 @@ def test_entities_sorted_by_position():
 
 
 def test_extract_slots_maps_to_dataset_slots():
+    from datetime import timedelta
+
     slots = extract_slots(
         "my name is Ahmed, 9th class physics ki fee kal kitni hai, "
         "call 03001234567")
@@ -194,7 +196,7 @@ def test_extract_slots_maps_to_dataset_slots():
         "student_name": "Ahmed",
         "class_level": "9th",
         "subject": "physics",
-        "date": "2026-11-27",
+        "date": (date.today() + timedelta(days=1)).isoformat(),
         "phone": "+923001234567",
     }
 
@@ -207,10 +209,12 @@ def test_no_entities_for_plain_messages():
 
 
 def test_messy_roman_urdu_message():
+    from datetime import timedelta
+
     slots = extract_slots("meri fees kitni hai fsc ki, 9th class, kal test hai?")
     assert slots["course"] == "fsc"
     assert slots["class_level"] == "9th"
-    assert slots["date"] == "2026-11-27"
+    assert slots["date"] == (date.today() + timedelta(days=1)).isoformat()
 
 
 def test_confidence_is_a_probability():
