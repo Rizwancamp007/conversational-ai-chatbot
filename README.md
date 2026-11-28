@@ -15,8 +15,9 @@ Work in progress. Done so far:
 - Intent classifier (Keras text model, trained on the dataset, with a confidence threshold and a fallback intent for anything outside the domain)
 - Entity extraction (course/subject, class level, day/date/time, phone, email, student name, amount — gazetteers + regex + NLTK name chunking, with normalisation like "kal" → a date and "10 baje" → "10:00")
 - Multi-turn dialogue: per-session state, slot filling with follow-up questions, context carry-over ("and for ICS?"), topic switching mid-conversation, cancel/reset, session expiry after 30 minutes, small talk that doesn't lose the current question, and human handoff
+- Chat API and web chat UI: `POST /api/chat` (reply, intent, confidence, entities, quick-reply chips), `POST /api/session/reset`, input validation and length limits, per-client rate limiting, CORS limited to `CLIENT_URL`, and a mobile-friendly chat page with bubbles, a typing indicator, quick-reply chips and a New chat button
 
-Intent model, the chat UI and the API are next.
+Intent model, chat API and chat UI are done. Training data tools, admin stats and Docker are next.
 
 ## Project layout
 
@@ -46,9 +47,46 @@ cp .env.example .env            # fill in your own values
 python scripts/validate_dataset.py
 python scripts/train.py          # trains the intent model, saves it under models/
 python scripts/evaluate.py      # accuracy and per-intent scores on held-out data
-python wsgi.py                  # http://127.0.0.1:5000/health
+python wsgi.py                  # http://127.0.0.1:5000/ (chat UI) and /health
 pytest
 ```
+
+## Chat API
+
+`POST /api/chat` takes a JSON body and returns the bot's reply plus what it
+understood:
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"session_id": "demo-1", "message": "I want admission in FSc"}'
+```
+
+```json
+{
+  "session_id": "demo-1",
+  "reply": "Which class or level is the student in?",
+  "intent": "admissions",
+  "confidence": 1.0,
+  "entities": [{"type": "course", "value": "fsc", "text": "FSc", "start": 20, "end": 23, "confidence": 0.9}],
+  "slots": {"course": "fsc"},
+  "pending_slot": "class_level",
+  "handoff_requested": false,
+  "quick_replies": ["9th", "10th", "1st year", "2nd year"]
+}
+```
+
+`session_id` is optional — one is generated when it is missing. Keep sending
+the same id to continue a conversation. `POST /api/session/reset` with
+`{"session_id": "..."}` forgets a conversation (the New chat button in the
+UI). Messages are limited to 500 characters, each client is limited to 30
+chat requests a minute (`RATE_LIMIT_PER_MINUTE`), and the API only answers
+cross-origin requests from `CLIENT_URL`. Bad input gets a JSON
+`{"error": "..."}` with a 400 status.
+
+The web chat UI at `/` is a plain page (bubbles, typing indicator,
+quick-reply chips, New chat button, mobile layout) that talks to the same
+API. No account or login is needed to use it.
 
 ## Train the model
 
@@ -128,4 +166,4 @@ Run `python scripts/validate_dataset.py` after editing it. It catches duplicate 
 
 ## Environment variables
 
-See `.env.example`: `FLASK_SECRET_KEY`, `CLIENT_URL`, `ADMIN_TOKEN`, `CONFIDENCE_THRESHOLD`.
+See `.env.example`: `FLASK_SECRET_KEY`, `CLIENT_URL`, `ADMIN_TOKEN`, `CONFIDENCE_THRESHOLD`, plus `MAX_MESSAGE_LENGTH` (default 500) and `RATE_LIMIT_PER_MINUTE` (default 30, 0 turns the limit off).
