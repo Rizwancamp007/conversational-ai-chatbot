@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academy Assistant — Chat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+</head>
+<body>
+  <div class="chat">
+    <header class="chat-header">
+      <div>
+        <h1>Academy Assistant</h1>
+        <p>Ask about admissions, courses, fees, timetable, tests and results.</p>
+      </div>
+      <button id="reset-btn" type="button" title="Start a new chat">New chat</button>
+    </header>
+
+    <main id="messages" class="messages" aria-live="polite"></main>
+
+    <div id="chips" class="chips"></div>
+
+    <form id="chat-form" class="composer" autocomplete="off">
+      <input id="message-input" type="text" maxlength="500"
+             placeholder="Type your message…" aria-label="Your message">
+      <button id="send-btn" type="submit">Send</button>
+    </form>
+    <p class="hint">Answers come from the academy's helpdesk info. Type “talk to a human” to ask for a person.</p>
+  </div>
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>
